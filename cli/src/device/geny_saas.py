@@ -62,7 +62,7 @@ class GenySAAS(Genymotion):
         with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
             try:
                 # Submit all tasks
-                future_to_item = {executor.submit(create_instance, item): item for item in items}
+                future_to_item = {executor.submit(self.create_instance, item): item for item in items}
                 
                 # Collect results as they complete
                 for future in concurrent.futures.as_completed(future_to_item):
@@ -124,7 +124,7 @@ class GenySAAS(Genymotion):
             # Stop all devices in parallel
             with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
                 # Submit all stop tasks
-                futures = [executor.submit(stop_instance, device) for device in self.created_devices]
+                futures = [executor.submit(self.stop_instance, device) for device in self.created_devices]
                 
                 # Wait for all to complete
                 for future in concurrent.futures.as_completed(futures):
